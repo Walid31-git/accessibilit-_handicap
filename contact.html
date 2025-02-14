@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Site Accessible</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .high-contrast label {
+            color: black !important;
+            font-weight: bold;
+        }
+
+        /* Styles pour la popup */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4); /* Ombre de fond */
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            margin: 10% auto;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            text-align: right;
+        }
+
+        .modal button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .modal button.cancel {
+            background-color: #f44336;
+        }
+
+        .modal button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
+    <header role="banner">
+        <h1>Contactez-nous</h1>
+
+        <button id="toggle-contrast" aria-pressed="false">Activer le mode contraste</button>
+        <div class="font-selector-container">
+            <label for="font-selector">Sélectionnez une police :</label>
+            <select id="font-selector">
+                <option value="system-ui">System UI</option>
+                <option value="Arial">Arial</option>
+                <option value="Verdana">Verdana</option>
+                <option value="Tahoma">Tahoma</option>
+            </select>
+        </div>
+        <img src="Handicap_Logo.png" alt="Logo_Handi" id="Logo_Handi">
+        <nav role="navigation" aria-label="Menu principal">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content" role="main">
+        <section>
+            <h2>Formulaire de contact</h2>
+            <form id="contact-form" action="#" method="post" aria-describedby="form-instructions" onsubmit="return confirmSubmission()">
+                <fieldset>
+                    <legend>Vos informations</legend>
+
+                    <label for="lastname">Nom :</label>
+                    <input type="text" id="lastname" name="lastname" required aria-required="true" autocomplete="family-name">
+                    
+                    <label for="firstname">Prénom :</label>
+                    <input type="text" id="firstname" name="firstname" required aria-required="true" autocomplete="given-name">
+                    
+                    <label for="address">Adresse :</label>
+                    <input type="text" id="address" name="address" required aria-required="true" autocomplete="street-address">
+                    
+                    <label for="postal-code">Code postal :</label>
+                    <input type="text" id="postal-code" name="postal-code" required aria-required="true" pattern="\d{1,5}" title="Le code postal doit contenir uniquement des chiffres et au maximum 5 chiffres.">
+                    
+                    <label for="email">Email :</label>
+                    <input type="email" id="email" name="email" required aria-required="true" autocomplete="email">
+                    
+                    <label for="message">Message :</label>
+                    <textarea id="message" name="message" required aria-required="true"></textarea>
+                    
+                    <button type="submit">Envoyer</button>
+                </fieldset>
+            </form>
+        </section>
+    </main>
+
+    <footer role="contentinfo">
+        <p>&copy; 2025 Site Accessible. Tous droits réservés.</p>
+        <ul>
+            <li><a href="mentions-legales.html">Mentions légales</a></li>
+            <li><a href="politique-de-confidentialite.html">Politique de confidentialité</a></li>
+        </ul>
+    </footer>
+
+    <!-- Modal de confirmation -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirmer l'envoi</h2>
+            </div>
+            <div class="modal-body">
+                <p id="modal-content"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="cancel" onclick="closeModal()">Annuler</button>
+                <button onclick="submitForm()">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+            window.addEventListener('load', function() {
+    // Vérifie si le mode contraste est activé dans localStorage
+    if (localStorage.getItem('contrast') === 'enabled') {
+        document.body.classList.add('high-contrast');
+        document.getElementById('toggle-contrast').textContent = 'Désactiver le mode contraste';
+        document.getElementById('toggle-contrast').setAttribute('aria-pressed', 'true');
+    }
+});
+document.getElementById('font-selector').addEventListener('change', function() {
+            const selectedFont = this.value;
+            document.body.style.fontFamily = selectedFont;
+
+            // Sauvegarde la police dans localStorage
+            localStorage.setItem('font', selectedFont);
+        });
+        function confirmSubmission() {
+            // Récupère les valeurs du formulaire
+            const lastname = document.getElementById('lastname').value;
+            const firstname = document.getElementById('firstname').value;
+            const address = document.getElementById('address').value;
+            const postalCode = document.getElementById('postal-code').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            // Crée le contenu de la popup
+            const content = `
+                <strong>Nom :</strong> ${lastname}<br>
+                <strong>Prénom :</strong> ${firstname}<br>
+                <strong>Adresse :</strong> ${address}<br>
+                <strong>Code postal :</strong> ${postalCode}<br>
+                <strong>Email :</strong> ${email}<br>
+                <strong>Message :</strong> ${message}
+            `;
+            
+            // Affiche la popup
+            document.getElementById('modal-content').innerHTML = content;
+            document.getElementById('confirmationModal').style.display = 'block';
+
+            // Empêche l'envoi du formulaire jusqu'à confirmation
+            return false;
+        }
+
+        function closeModal() {
+            document.getElementById('confirmationModal').style.display = 'none';
+        }
+
+        function submitForm() {
+            // Ferme la popup
+            document.getElementById('confirmationModal').style.display = 'none';
+
+            // Envoie le formulaire (ajouter ici ton code d'envoi de formulaire si nécessaire)
+            document.getElementById('contact-form').submit();
+        }
+        document.getElementById('toggle-contrast').addEventListener('click', function() {
+    let body = document.body;
+    let button = this;
+    
+    // Toggle le mode contraste
+    body.classList.toggle('high-contrast');
+    
+    // Sauvegarde l'état dans localStorage
+    if (body.classList.contains('high-contrast')) {
+        localStorage.setItem('contrast', 'enabled');
+        button.textContent = 'Désactiver le mode contraste';
+    } else {
+        localStorage.setItem('contrast', 'disabled');
+        button.textContent = 'Activer le mode contraste';
+    }
+    
+    
+    // Change l'état du bouton pour l'accessibilité
+    button.setAttribute('aria-pressed', body.classList.contains('high-contrast'));
+});
+    </script>
+</body>
+</html>

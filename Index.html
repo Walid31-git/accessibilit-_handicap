@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil | Site Accessible</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
+    <header role="banner">
+        <h1>Bienvenue sur notre site accessible</h1>
+        
+        <!-- Conteneur pour centrer les éléments -->
+        <div class="button-container">
+            <!-- Bouton pour activer/désactiver le mode contraste -->
+            <button id="toggle-contrast" aria-label="Activer/désactiver le mode contraste élevé">Activer le mode contraste</button>
+
+            <!-- Sélecteur de police -->
+            <div class="font-selector-container">
+                <label for="font-selector">Sélectionnez une police :</label>
+                <select id="font-selector">
+                    <option value="system-ui">System UI</option>
+                    <option value="Arial">Arial</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Tahoma">Tahoma</option>
+                </select>
+            </div>
+        </div>
+        <img src="Handicap_Logo.png" alt="Logo_Handi" id="Logo_Handi">
+        <nav role="navigation" aria-label="Menu principal">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content" role="main">
+        <section>
+            <h2>À propos de nous</h2>
+            <p>Tout a commencé avec une simple question : pourquoi tant de sites restent-ils inaccessibles aux personnes en situation de handicap ? Face à ce constat, nous avons décidé d’agir.
+
+                Nous sommes bien plus qu’une entreprise de création de sites web. Nous sommes une équipe passionnée, animée par une mission claire : rendre le numérique inclusif. Chaque jour, nous concevons des sites ergonomiques, intuitifs et accessibles, où chacun, quelle que soit sa condition, peut naviguer sans obstacle.
+                
+                Parce que le web est un espace d’opportunités, il ne doit exclure personne. Nous mettons notre expertise au service de l’accessibilité, en intégrant des technologies adaptées, des designs réfléchis et une approche humaine à chaque projet.
+                
+                Chez nous, chaque ligne de code raconte une histoire : celle d’un monde digital plus équitable, où chacun trouve sa place.</p>
+        </section>
+        <div id="backgr">
+            <!-- Avant amélioration d'accessibilité -->
+            <div class="about-image-before">
+                <img src="Screen-Shot-2021-09-07-at-9.13.49-AM.png" alt="Ancienne version du site avant les améliorations d'accessibilité" class="about-image" id="about-image-bef">
+                <p><strong>Avant :</strong> Lorsque notre site a vu le jour, il n’était qu’une première ébauche, encore loin d’être accessible à tous. Ceux qui avaient besoin d’une expérience numérique facilitée se retrouvaient confrontés à des barrières invisibles, rendant leur navigation difficile, voire impossible. Ce constat nous a poussés à repenser entièrement notre approche, dans l’espoir de créer un espace où chaque personne, quelle que soit sa situation, pourrait se sentir à l’aise et pleinement intégrée.</p>
+            </div>
+        
+            <!-- Après amélioration d'accessibilité -->
+            <div class="about-image-after">
+                <img src="wave-tips-simple.png" alt="Site amélioré après les changements d'accessibilité" class="about-image" id="about-image-af">
+                <p><strong>Après :</strong> Suite de nombreux ajustements méticuleux et tests rigoureux, nous avons pu transformer notre site pour qu’il devienne un véritable modèle d'accessibilité. Ce travail acharné nous a permis de créer une expérience fluide et inclusive, où chaque utilisateur, qu’il soit malvoyant, malentendant, ou en situation de handicap, peut désormais naviguer avec aisance. Grâce à ces améliorations, notre site est devenu un espace accueillant, ouvert à tous, offrant à chacun la possibilité de profiter pleinement des contenus sans obstacles.</p>
+            </div>
+        </div>
+        
+    </main>
+
+    <footer role="contentinfo">
+        <p>&copy; 2023 Site Accessible. Tous droits réservés.</p>
+        <ul>
+            <li><a href="mentions-legales.html">Mentions légales</a></li>
+            <li><a href="politique-de-confidentialite.html">Politique de confidentialité</a></li>
+        </ul>
+    </footer>
+
+    <script>
+        // Vérifie l'état du mode contraste au chargement
+        window.addEventListener('load', function() {
+            if (localStorage.getItem('contrast') === 'enabled') {
+                document.body.classList.add('high-contrast');
+                document.getElementById('toggle-contrast').textContent = 'Désactiver le mode contraste';
+                document.getElementById('toggle-contrast').setAttribute('aria-pressed', 'true');
+            }
+
+            // Vérifie la police sélectionnée au chargement
+            const savedFont = localStorage.getItem('font');
+            if (savedFont) {
+                document.body.style.fontFamily = savedFont;
+                document.getElementById('font-selector').value = savedFont;
+            }
+        });
+
+        // Gère le changement du mode contraste
+        document.getElementById('toggle-contrast').addEventListener('click', function() {
+            let body = document.body;
+            let button = this;
+            body.classList.toggle('high-contrast');
+            this.setAttribute('aria-pressed', body.classList.contains('high-contrast'));
+
+            // Sauvegarde l'état du mode contraste
+            if (body.classList.contains('high-contrast')) {
+                localStorage.setItem('contrast', 'enabled');
+                button.textContent = 'Désactiver le mode contraste';
+            } else {
+                localStorage.setItem('contrast', 'disabled');
+                button.textContent = 'Activer le mode contraste';
+            }
+        });
+
+        // Gère le changement de police
+        document.getElementById('font-selector').addEventListener('change', function() {
+            const selectedFont = this.value;
+            document.body.style.fontFamily = selectedFont;
+
+            // Sauvegarde la police dans localStorage
+            localStorage.setItem('font', selectedFont);
+        });
+    </script>
+</body>
+</html>

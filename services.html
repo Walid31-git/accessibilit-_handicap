@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services | Site Accessible</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+    <img src="Handicap_Logo.png" alt="Logo_Handi" id="Logo_Handi">
+    <header role="banner">
+        <h1>Nos services</h1>
+        <button id="toggle-contrast" aria-label="Activer/désactiver le mode contraste élevé">Activer le mode contraste</button>
+        <div class="font-selector-container">
+            <label for="font-selector">Sélectionnez une police :</label>
+            <select id="font-selector">
+                <option value="system-ui">System UI</option>
+                <option value="Arial">Arial</option>
+                <option value="Verdana">Verdana</option>
+                <option value="Tahoma">Tahoma</option>
+            </select>
+        </div>
+        <nav role="navigation" aria-label="Menu principal">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content" role="main">
+        <section id="services">
+            <h2>Nos services : un web sans barrières</h2>
+            <p>Chaque jour, des millions de personnes naviguent sur Internet. Mais pour certains, cette expérience est semée d’embûches : textes illisibles, contrastes insuffisants, navigation impossible sans souris… C’est là que nous intervenons.</p>
+
+            <ul>
+                <li>
+                    <h3>🌍 Conception de sites web accessibles</h3>
+                    <p>Nous ne créons pas juste des sites web. Nous bâtissons des ponts entre la technologie et l’inclusivité, en concevant des plateformes où tout le monde peut naviguer en toute autonomie.</p>
+                </li>
+                <li>
+                    <h3>🔎 Audits d’accessibilité</h3>
+                    <p>Un site déjà en ligne, mais pas encore 100% accessible ? Nous analysons chaque détail pour détecter les obstacles invisibles et vous fournir des solutions concrètes.</p>
+                </li>
+                <li>
+                    <h3>🎓 Formation en accessibilité</h3>
+                    <p>L’accessibilité ne s’arrête pas à un projet, c’est un engagement. Nous formons vos équipes pour qu’elles intègrent les meilleures pratiques et participent à rendre le web meilleur pour tous.</p>
+                </li>
+            </ul>
+
+            <p class="call-to-action">Parce que l’accessibilité numérique n’est pas une option, mais un droit. Et nous sommes là pour le garantir.</p>
+        </section>
+    </main>
+
+    <footer role="contentinfo">
+        <p>&copy; 2023 Site Accessible. Tous droits réservés.</p>
+        <ul>
+            <li><a href="mentions-legales.html">Mentions légales</a></li>
+            <li><a href="politique-de-confidentialite.html">Politique de confidentialité</a></li>
+        </ul>
+    </footer>
+
+    <script>
+        window.addEventListener('load', function() {
+    // Vérifie si le mode contraste est activé dans localStorage
+    if (localStorage.getItem('contrast') === 'enabled') {
+        document.body.classList.add('high-contrast');
+        document.getElementById('toggle-contrast').textContent = 'Désactiver le mode contraste';
+        document.getElementById('toggle-contrast').setAttribute('aria-pressed', 'true');
+    }
+});
+document.getElementById('font-selector').addEventListener('change', function() {
+            const selectedFont = this.value;
+            document.body.style.fontFamily = selectedFont;
+
+            // Sauvegarde la police dans localStorage
+            localStorage.setItem('font', selectedFont);
+        });
+
+document.getElementById('toggle-contrast').addEventListener('click', function() {
+    let body = document.body;
+    let button = this;
+    
+    // Toggle le mode contraste
+    body.classList.toggle('high-contrast');
+    
+    // Sauvegarde l'état dans localStorage
+    if (body.classList.contains('high-contrast')) {
+        localStorage.setItem('contrast', 'enabled');
+        button.textContent = 'Désactiver le mode contraste';
+    } else {
+        localStorage.setItem('contrast', 'disabled');
+        button.textContent = 'Activer le mode contraste';
+    }
+    
+    
+    // Change l'état du bouton pour l'accessibilité
+    button.setAttribute('aria-pressed', body.classList.contains('high-contrast'));
+});
+    </script>
+</body>
+</html>
